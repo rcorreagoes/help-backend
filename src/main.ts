@@ -9,6 +9,7 @@ async function bootstrap() {
     'http://localhost:5002',
     'http://localhost:5173',
     'http://localhost:8000',
+    'http://host.docker.internal:3002',
   ]);
 
   app.enableCors({
