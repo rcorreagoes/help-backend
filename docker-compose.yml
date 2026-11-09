@@ -1,0 +1,15 @@
+name: help-backend
+
+services:
+  help-backend:
+    image: help-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: help-backend
+    environment:
+      PORT: "3002"
+      ENGINE_URL: "http://host.docker.internal:8002" # ajuste se seu engine estiver em outra URL
+    ports:
+      - "3002:3002"
+    restart: unless-stopped
