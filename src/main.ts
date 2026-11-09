@@ -12,7 +12,7 @@ async function bootstrap() {
     'http://localhost:3002',
     'http://127.0.0.1:5173',
     'http://127.0.0.1:3002',
-    'http://host.docker.internal:3002',
+    'http://host.docker.internal:5002',
     'http://host.docker.internal:5173',
   ]);
 
@@ -40,7 +40,10 @@ async function bootstrap() {
         callback(null, true);
         return;
       }
-      callback(new Error(`Origin não permitida: ${origin ?? 'desconhecida'}`), false);
+      callback(
+        new Error(`Origin não permitida: ${origin ?? 'desconhecida'}`),
+        false,
+      );
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
