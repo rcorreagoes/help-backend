@@ -9,19 +9,38 @@ async function bootstrap() {
     'http://localhost:5002',
     'http://localhost:5173',
     'http://localhost:8000',
+    'http://localhost:3002',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:3002',
     'http://host.docker.internal:3002',
+    'http://host.docker.internal:5173',
   ]);
+
+  const isAllowedOrigin = (origin?: string) => {
+    if (!origin) {
+      return true;
+    }
+
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    if (allowedOrigins.has(normalizedOrigin)) {
+      return true;
+    }
+
+    return /^http:\/\/(localhost|127\.0\.0\.1|host\.docker\.internal):\d+$/.test(
+      normalizedOrigin,
+    );
+  };
 
   app.enableCors({
     origin: (
       origin: string | undefined,
       callback: (error: Error | null, allow?: boolean) => void,
     ) => {
-      if (!origin || allowedOrigins.has(origin)) {
+      if (isAllowedOrigin(origin)) {
         callback(null, true);
         return;
       }
-      callback(new Error(`Origin não permitida: ${origin}`), false);
+      callback(new Error(`Origin não permitida: ${origin ?? 'desconhecida'}`), false);
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
